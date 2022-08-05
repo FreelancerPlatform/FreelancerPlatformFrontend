@@ -1,6 +1,7 @@
 import React from "react";
-import { Form, Input, InputNumber, Button, message } from "antd";
+import { Form, Input, InputNumber, Button, message, Select } from "antd";
 import { uploadJob } from "../utils";
+const { Option } = Select;
  
 const layout = {
   labelCol: { span: 8 },
