@@ -1,32 +1,22 @@
 import React from "react";
-import { 
-  message,
-  Tabs,
-  List,
-  Typography,
-  Button,
-  Card,
-} from "antd";
-import JobDetailInfoButton from "./JobDetailInfoButton";
-import { getJobsByType, getJobRecommendations, createApplication } from "../utils";
+import { message, List, Typography, Button, Card } from "antd";
+import { getApplications, withdrawApplication } from "../utils";
 
-const { TabPane } = Tabs;
 const { Text } = Typography;
 
-class ApplyButton extends React.Component {
+class WithdrawButton extends React.Component {
     state = {
         loading: false,
     };
 
-    handleSubmit = async () => {
-        const { job_ID } = this.props.job;
+    handleWithdrawApplication = async () => {
+        const { application_ID, onWithdrawSuccess } = this.props;
         this.setState({
             loading: true,
         });
 
         try {
-            await createApplication(job_ID);
-            message.success("Application Submitted");
+            await withdrawApplication(application_ID);
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -34,46 +24,42 @@ class ApplyButton extends React.Component {
                 loading: false,
             });
         }
-        // How does the UI change for jobs already applied to? disable button
+
+        onWithdrawSuccess();
     };
 
     render() {
         return (
             <Button
                 loading={this.state.loading}
-                onClick={this.handleSubmit}
+                onClick={this.handleWithdrawApplication}
+                danger={true}
                 shape="round"
                 type="primary"
-                //disabled=
             >
-                Apply
+                Withdraw
             </Button>
         );
     }
 }
 
-class DisplayJobsByType extends React.Component {
+class ApplicantViewApplicationsPage extends React.Component {
     state = {
-        data: [],
         loading: false,
+        data: [],
     };
 
     componentDidMount() {
-        this.loadData(this.props.job_type);
+        this.loadData();
     }
 
-    loadData = async (type) => {
+    loadData = async () => {
         this.setState({
             loading: true,
         });
 
-        let resp;
         try {
-            if (type === "recommendation") {
-                resp = await getJobRecommendations();
-            } else {
-                resp = await getJobsByType(type);
-            }
+            const resp = await getApplications();
             this.setState({
                 data: resp,
             });
@@ -87,7 +73,7 @@ class DisplayJobsByType extends React.Component {
     };
 
     render() {
-        return (
+        return(
             <List 
                 style={{ marginTop: 20 }}
                 loading={this.state.loading}
@@ -104,39 +90,24 @@ class DisplayJobsByType extends React.Component {
                 renderItem={(item) => (
                     <List.Item>
                         <Card
-                            key={item.job_ID}
+                            key={item.application_ID}
                             title={
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <Text ellipsis={true} style={{ maxWidth: 150 }}>
                                         {item.job_name}
                                     </Text>
-                                    <JobDetailInfoButton job={item} />
                                 </div>
                             }
-                            extra={<ApplyButton job={item} />}
+                            extra={item.status === "PENDING" && <WithdrawButton onWithdrawSuccess={this.loadData} application_ID={item.application_ID} />}
                         >
-                            <p>{item.job_tye}</p>
+                            <p>{item.status}</p>
                         </Card>
                     </List.Item>
                 )}
             />
         );
     }
+
 }
 
-class ApplicantHomePage extends React.Component {
-    render() {
-        return (
-            <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
-                <TabPane tab="Recommendations" key="1">
-                    <DisplayJobsByType job_type="recommendation"/>
-                </TabPane>
-                <TabPane tab="Job Type 1" key="2">
-                    <DisplayJobsByType job_type="TECHNOLOGY"/>
-                </TabPane>
-            </Tabs>
-        );
-    }
-}
-
-export default ApplicantHomePage;
+export default ApplicantViewApplicationsPage;

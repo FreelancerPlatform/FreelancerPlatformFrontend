@@ -3,7 +3,7 @@ const domain = "the url you deployed your backend to";
 
 export const getJobsByType = (job_type) => {
   const authToken = localStorage.getItem("authToken");
-  const getJobsUrl = new URL(`${domain}/jobs/${job_type}`);
+  const getJobsUrl = `${domain}/jobs/${job_type}`;
   //if (job_type) { // when job_type is not empty, get jobs from one category
     //getJobsUrl.searchParams.append("job_type", job_type);
   //}
@@ -22,7 +22,7 @@ export const getJobsByType = (job_type) => {
 
 export const getJobRecommendations = () => {
     const authToken = localStorage.getItem("authToken");
-    const getRecommendedJobsUrl = new URL(`${domain}/recommendation`);
+    const getRecommendedJobsUrl = `${domain}/recommendation`;
     return fetch(getRecommendedJobsUrl, {
         headers: {
             Authorization: `Bearer ${authToken}`,
@@ -36,9 +36,26 @@ export const getJobRecommendations = () => {
     });
 };
 
+export const getApplications = () => {
+  const authToken = localStorage.getItem("authToken");
+  const listApplicationsUrl = `${domain}/applications`;
+ 
+  return fetch(listApplicationsUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to get submitted applications");
+    }
+ 
+    return response.json();
+  });
+};
+
 export const createApplication = (job_id) => {
   const authToken = localStorage.getItem("authToken");
-  const createApplicationUrl = new URL(`${domain}/applications/${job_id}`);
+  const createApplicationUrl = `${domain}/applications/${job_id}`;
  
   return fetch(createApplicationUrl, {
     method: "POST",
@@ -54,4 +71,19 @@ export const createApplication = (job_id) => {
   });
 };
 
+export const withdrawApplication = (application_ID) => {
+  const authToken = localStorage.getItem("authToken");
+  const withdrawApplicationUrl = `${domain}/applications/${application_ID}`;
+ 
+  return fetch(withdrawApplicationUrl, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Fail to withdraw application");
+    }
+  });
+};
 

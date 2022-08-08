@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import { Layout } from "antd";
 import React from "react";
 import ApplicantHomePage from './components/ApplicantHomePage';
+import ApplicantViewApplicationsPage from './components/ApplicantViewApplicationsPage';
 
 const { Content, Header } = Layout;
 
@@ -17,6 +18,7 @@ class App extends React.Component{
     // }
  
     return <ApplicantHomePage />;
+    // return <ApplicantViewApplicationsPage />;
   };
 
   render() {
