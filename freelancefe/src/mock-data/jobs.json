@@ -1,0 +1,16 @@
+[
+    {
+        "jobId": 1,
+        "name": "Website Developer",
+        "job_type": "Computer",
+        "skills": "java, javascript",
+        "description": "Require: 1-2 years relevant experience"
+    },
+    {
+        "jobId": 2,
+        "name": "Baby Sitter",
+        "job_type": "Home",
+        "skills": "Education",
+        "description": "Require: 1-2 years relevant experience"
+    }
+]
