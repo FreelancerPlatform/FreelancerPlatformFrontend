@@ -44,7 +44,6 @@ class ApplyButton extends React.Component {
                 onClick={this.handleSubmit}
                 shape="round"
                 type="primary"
-                //disabled=
             >
                 Apply
             </Button>

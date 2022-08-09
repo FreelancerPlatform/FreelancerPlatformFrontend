@@ -53,11 +53,13 @@ class JobDetailInfoButton extends React.Component {
                         onCancel={this.handleCancel}
                     >
                         <Space direction="vertical">
-                            <Tag>{job_type}</Tag>
+                            <Text italic mark>{job_type}</Text>
                             <Text strong={true}>Description</Text>
                             <Text type="secondary">{content}</Text>
                             <Text strong={true}>Skills</Text>
-                            <Text type="secondary">{skills}</Text>
+                            <Text>
+                                {skills.map(skill => <Text code>{skill}</Text>)}
+                            </Text>
                             <Text strong={true}>Location</Text>
                             <Text type="secondary">{location}</Text>
                             <Text strong={true}>Salary</Text>
