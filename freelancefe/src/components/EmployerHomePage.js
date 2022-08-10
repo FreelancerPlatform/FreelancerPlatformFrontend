@@ -21,117 +21,11 @@ const {Meta} = Card;
 
 const { TabPane } = Tabs;
 
-class HireButton extends React.Component {
-    state = {
-        loading: false,
-    };
-
-    handleRemoveJob = async () => {
-        const { applicants, hireSuccess } = this.props;
-        this.setState({
-            loading: true,
-        });
-
-        try {
-            await deleteJob(this.props.applicants.jobId);
-            hireSuccess();
-        } catch (error) {
-            message.error(error.message);
-        } finally {
-            this.setState({
-                loading: false,
-            });
-        }
-    };
-
-    render() {
-        return (
-            <Button
-                loading={this.state.loading}
-                onClick={this.handleRemoveJob}
-                danger={true}
-                shape="round"
-                type="primary"
-            >
-                Hire
-            </Button>
-        );
-    }
-
-}
-
-
-class ApplicantList extends React.Component {
-    state = {
-        loading: false,
-        applicants: [],
-    };
-
-    componentDidMount() {
-        this.loadData();
-    }
-
-    loadData = async () => {
-        this.setState({
-            loading: true,
-        });
-
-        try {
-            const resp = await getApplicantsByJob(this.props.jobId);
-            this.setState({
-                applicants: resp,
-            });
-        } catch (error) {
-            message.error(error.message);
-        } finally {
-            this.setState({
-                loading: false,
-            });
-        }
-    };
-
-    render() {
-        const { loading, applicants } = this.state;
-
-        return (
-            <List
-                loading={this.state.loading}
-                dataSource={this.state.applicants}
-                renderItem={(item) => (
-                    <List.Item>
-                        <Card
-                            key={item.name}
-                            title={
-
-                                <div style={{ display: "flex", alignItems: "center" }}>
-                                    <Text ellipsis={true} style={{ maxWidth: 150 }}>
-                                        {item.name}
-                                    </Text>
-                                    <ApplicantDetailInfoButton applicants={item}/>
-                                </div>
-                            }
-                            actions={[
-                                <HireButton job={item} hireSuccess={this.loadData} />
-                            ]}
-                        >
-                            <Meta 
-                            title="Description"
-                            description={item.description}
-                            /> 
-
-                        </Card>
-                    </List.Item>
-                )}
-            />
-        );
-    }
-}
-
 export function ViewApplicantsButton() {
     const navigate = useNavigate();
 
     const navigateToApplicants=() => {
-        navigate('/applicants');
+        navigate('/applicants', {replace: true});
     };
 
     const navigateToJobs=() => {
@@ -140,11 +34,18 @@ export function ViewApplicantsButton() {
 
     return (
         <div>
+            {/* <ul>
+                <li>
+                    <Link to ="/applicants">
+                        View Applicants
+                    </Link>
+                </li>
+            </ul> */}
             <button onClick={navigateToApplicants}>
                 View Applicants
             </button>
             <Routes>
-                <Route path="/applicants" element={<ApplicantList />} />                                
+                <Route path="/applicants" element={<ApplicantListPage />} />                                
             </Routes>
         </div>
     );
@@ -208,6 +109,62 @@ export class ApplicantDetailInfoButton extends React.Component {
     }
 
 }
+
+// export class JobDetailInfoButton extends React.Component {
+//     state = {
+//         modalVisible: false,
+//     };
+
+//     openModal = () => {
+//         this.setState({
+//             modalVisible: true,
+//         });
+//     };
+
+//     handleCancel = () => {
+//         this.setState({
+//             modalVisible: false,
+//         });
+//     };
+
+//     render() {
+//         const { job } = this.props;
+//         const { job_name, job_type, job_number } = job;
+//         const { modalVisible } = this.state;
+//         return (
+//             <>
+//                 <Tooltip title="View Job Details">
+//                     <Button
+//                         onClick={this.openModal}
+//                         style={{ border: "none" }}
+//                         size="large"
+//                         icon={<InfoCircleOutlined />}
+//                     />
+//                 </Tooltip>
+//                 {modalVisible && (
+//                     <Modal
+//                         title={job_name}
+//                         centered={true}
+//                         visible={modalVisible}
+//                         closable={false}
+//                         footer={null}
+//                         onCancel={this.handleCancel}
+//                     >
+//                         <Space direction="vertical">
+//                             <Text strong={true}>Job Name</Text>
+//                             <Text type="secondary">{job_name}</Text>
+//                             <Text strong={true}>Job Type</Text>
+//                             <Text type="secondary">{job_type}</Text>
+//                             <Text strong={true}>Job Number</Text>
+//                             <Text type="secondary">{job_number}</Text>
+//                         </Space>
+//                     </Modal>
+//                 )}
+//             </>
+//         );
+//     }
+
+// }
 
 class RemoveJobButton extends React.Component {
     state = {
@@ -325,7 +282,6 @@ class MyJobs extends React.Component {
         );
     }
 
-
 }
 
 
@@ -343,5 +299,4 @@ class EmployerHomePage extends React.Component {
         );
     }
 }
-
 export default EmployerHomePage;
