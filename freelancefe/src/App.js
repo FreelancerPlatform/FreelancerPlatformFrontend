@@ -18,7 +18,7 @@ class App extends React.Component{
     // }
  
     return <ApplicantHomePage />;
-    // return <ApplicantViewApplicationsPage />;
+    //return <ApplicantViewApplicationsPage />;
   };
 
   render() {

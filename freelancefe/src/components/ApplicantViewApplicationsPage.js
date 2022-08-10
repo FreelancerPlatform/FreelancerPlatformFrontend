@@ -1,6 +1,7 @@
 import React from "react";
 import { message, List, Typography, Button, Card } from "antd";
-import { getApplications, withdrawApplication } from "../utils";
+//import { getApplications, withdrawApplication } from "../utils";
+import { getApplications, withdrawApplication } from "../utilsTest";
 
 const { Text } = Typography;
 
@@ -17,6 +18,7 @@ class WithdrawButton extends React.Component {
 
         try {
             await withdrawApplication(application_ID);
+            message.success("Withdrawal Successful!");
         } catch (error) {
             message.error(error.message);
         } finally {
@@ -72,6 +74,24 @@ class ApplicantViewApplicationsPage extends React.Component {
         }
     };
 
+    displayStatus(status) {
+        if (status === "PENDING") return (
+            <Text type="warning">{status}</Text>
+        );
+        else if (status === 'HIRED') return (
+            <Text type="success">{status}</Text>
+        );
+        else if (status === 'REJECTED') return (
+            <Text type="danger">{status}</Text>
+        );
+        else if (status === 'CLOSED') return (
+            <Text disabled>{status}</Text>
+        );
+        else return (
+            <Text>{status}</Text>
+        );
+    }
+
     render() {
         return(
             <List 
@@ -100,7 +120,7 @@ class ApplicantViewApplicationsPage extends React.Component {
                             }
                             extra={item.status === "PENDING" && <WithdrawButton onWithdrawSuccess={this.loadData} application_ID={item.application_ID} />}
                         >
-                            <p>{item.status}</p>
+                        {this.displayStatus(item.status)}
                         </Card>
                     </List.Item>
                 )}

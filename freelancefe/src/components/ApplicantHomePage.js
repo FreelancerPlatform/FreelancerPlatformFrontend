@@ -1,14 +1,8 @@
 import React from "react";
-import { 
-  message,
-  Tabs,
-  List,
-  Typography,
-  Button,
-  Card,
-} from "antd";
+import { message, Tabs, List, Typography, Button, Card } from "antd";
 import JobDetailInfoButton from "./JobDetailInfoButton";
 import { getJobsByType, getJobRecommendations, createApplication } from "../utils";
+//import { getJobsByType, getJobRecommendations, createApplication } from "../utilsTest";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -19,13 +13,13 @@ class ApplyButton extends React.Component {
     };
 
     handleSubmit = async () => {
-        const { job_ID } = this.props.job;
+        const { jobID } = this.props.job;
         this.setState({
             loading: true,
         });
 
         try {
-            await createApplication(job_ID);
+            await createApplication(jobID);
             message.success("Application Submitted");
         } catch (error) {
             message.error(error.message);
@@ -34,7 +28,6 @@ class ApplyButton extends React.Component {
                 loading: false,
             });
         }
-        // How does the UI change for jobs already applied to? disable button
     };
 
     render() {
@@ -100,21 +93,29 @@ class DisplayJobsByType extends React.Component {
                     xxl: 4,
                 }}
                 dataSource={this.state.data}
-                renderItem={(item) => (
+                renderItem={(item) => ( item.status === "PUBLIC" &&
                     <List.Item>
                         <Card
-                            key={item.job_ID}
+                            key={item.jobID}
                             title={
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <Text ellipsis={true} style={{ maxWidth: 150 }}>
                                         {item.job_name}
                                     </Text>
-                                    <JobDetailInfoButton job={item} />
+                                    <JobDetailInfoButton jobID={item.jobID} />
                                 </div>
                             }
                             extra={<ApplyButton job={item} />}
                         >
-                            <p>{item.job_tye}</p>
+                            <Text italic>{item.content}</Text>
+                            <br></br><br></br>
+                            <Text>
+                                <Text strong>Location: </Text>{item.location}
+                            </Text>
+                            <br></br>
+                            <Text>
+                                <Text strong>Salary: </Text>{item.salary + " $/mo"}
+                            </Text>
                         </Card>
                     </List.Item>
                 )}
@@ -126,12 +127,33 @@ class DisplayJobsByType extends React.Component {
 class ApplicantHomePage extends React.Component {
     render() {
         return (
-            <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
-                <TabPane tab="Recommendations" key="1">
+            <Tabs defaultActiveKey="2" destroyInactiveTabPane={true} centered>
+                <TabPane tab="All Openings" key="1">
+                    <DisplayJobsByType job_type=""/>
+                </TabPane>
+                <TabPane tab="Recommendations" key="2">
                     <DisplayJobsByType job_type="recommendation"/>
                 </TabPane>
-                <TabPane tab="Job Type 1" key="2">
+                <TabPane tab="Technology" key="3">
                     <DisplayJobsByType job_type="TECHNOLOGY"/>
+                </TabPane>
+                <TabPane tab="Health" key="4">
+                    <DisplayJobsByType job_type="HEALTH"/>
+                </TabPane>
+                <TabPane tab="Consulting" key="5">
+                    <DisplayJobsByType job_type="CONSULTING"/>
+                </TabPane>
+                <TabPane tab="Design" key="6">
+                    <DisplayJobsByType job_type="DESIGN"/>
+                </TabPane>
+                <TabPane tab="Education" key="7">
+                    <DisplayJobsByType job_type="EDUCATION"/>
+                </TabPane>
+                <TabPane tab="Business" key="8">
+                    <DisplayJobsByType job_type="BUSINESS"/>
+                </TabPane>
+                <TabPane tab="Language" key="9">
+                    <DisplayJobsByType job_type="LANGUAGE"/>
                 </TabPane>
             </Tabs>
         );
