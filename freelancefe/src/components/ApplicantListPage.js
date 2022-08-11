@@ -11,11 +11,11 @@ import {
 import {
     InfoCircleOutlined,
 } from "@ant-design/icons";
-import { Routes, Route, useNavigate, Link } from 'react-router-dom';
+//import { Routes, Route, useNavigate, Link } from 'react-router-dom';
 import Text from "antd/lib/typography/Text";
 import React from "react";
-import { getJobsByEmployer, getApplicantsByJob } from "../utilsTest";
-import { deleteJob } from "../utils";
+import { getJobsByEmployer, getApplicationsByJob, closeJob, getProfile } from "../utilsTest";
+//import { deleteJob } from "../utils";
 
 const { Meta } = Card;
 
@@ -33,7 +33,7 @@ class HireButton extends React.Component {
         });
 
         try {
-            await deleteJob(this.props.applicants.jobId);
+            await closeJob(this.props.applicants.jobID);
             hireSuccess();
         } catch (error) {
             message.error(error.message);
@@ -63,13 +63,37 @@ class HireButton extends React.Component {
 
 export class ApplicantDetailInfoButton extends React.Component {
     state = {
+        loading: false,
         modalVisible: false,
+        applicantInfo: {},
     };
 
     openModal = () => {
         this.setState({
             modalVisible: true,
+            loading: true,
         });
+        this.loadData(this.props.email);
+    };
+
+    loadData = async (email) => {
+        this.setState({
+            loading: true,
+        });
+
+        try {
+            const resp = await getProfile(email);
+            this.setState({
+                applicantInfo: resp,
+            });
+        } catch (error) {
+            message.error(error.message);
+        } finally {
+            this.setState({
+                loading: false,
+            });
+
+        }
     };
 
     handleCancel = () => {
@@ -79,8 +103,8 @@ export class ApplicantDetailInfoButton extends React.Component {
     };
 
     render() {
-        const { applicant } = this.props;
-        const { name, skills, education, certification, jobId } = applicant;
+        const { applicantInfo } = this.state;
+        const { email, name, gender, education_level, certification, skill, rate } = applicantInfo;
         const { modalVisible } = this.state;
         return (
             <>
@@ -103,13 +127,17 @@ export class ApplicantDetailInfoButton extends React.Component {
                     >
                         <Space direction="vertical">
                             <Text strong={true}>Skills</Text>
-                            <Text type="secondary">{skills}</Text>
+                            {<Text>
+                                {skill?.map(s => <Text code>{s}</Text>)}
+                            </Text>}
                             <Text strong={true}>Education</Text>
-                            <Text type="secondary">{education}</Text>
+                            <Text type="secondary">{education_level}</Text>
                             <Text strong={true}>Certification</Text>
-                            <Text type="secondary">{certification}</Text>
-                            <Text strong={true}>Job ID</Text>
-                            <Text type="secondary">{jobId}</Text>
+                            {<Text>
+                                {certification?.map(s => <Text type="secondary">{s}</Text>)}
+                            </Text>}
+                            <Text strong={true}>Rate</Text>
+                            <Text type="secondary">{rate}</Text>
                         </Space>
                     </Modal>
                 )}
@@ -135,8 +163,8 @@ class ApplicantList extends React.Component {
         });
 
         try {
-            const resp = await getApplicantsByJob(this.props.jobId);
-            resp = [...this.state.applicants];
+            const resp = await getApplicationsByJob(this.props.jobID);
+            //resp = [...this.state.applicants];
             this.setState({
                 applicants: resp
             });
@@ -155,16 +183,25 @@ class ApplicantList extends React.Component {
         return (
             <List
                 loading={loading}
+                grid={{
+                    gutter: 16,
+                    xs: 1,
+                    sm: 3,
+                    md: 3,
+                    lg: 3,
+                    xl: 4,
+                    xxl: 4,
+                }}
                 dataSource={applicants}
                 renderItem={(item) => (
                     <List.Item>
                         <Card
-                            key={item.name}
+                            key={item.application_ID}
                             title={
 
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <Text ellipsis={true} style={{ maxWidth: 150 }}>
-                                        {item.name}
+                                        {item.applicant_name}
                                     </Text>
                                     <ApplicantDetailInfoButton applicants={item} />
                                 </div>
@@ -174,10 +211,10 @@ class ApplicantList extends React.Component {
                                 <HireButton job={item} hireSuccess={this.loadData} />
                             ]}
                         >
-                            <Meta
+                            {/* <Meta
                                 title="Description"
                                 description={item.description}
-                            />
+                            /> */}
 
                         </Card>
                     </List.Item>
@@ -189,16 +226,25 @@ class ApplicantList extends React.Component {
 
 class ApplicantListPage extends React.Component {
     
-
+ 
     render() {
-        const {jobs} = this.props;
+        
         return (
-            <div>
-                <ApplicantList />
-            </div>
-        );
-    }
+            
+                <div>
+                <h1>
+                    <Text ellipsis={true} style={{ maxWidth: 150 }}>
+                    Job Name 
+                    </Text>
+                </h1>
+                <ApplicantList  />
 
+            </div>
+                
+            )
+
+    
+        }
 }
 
 export default ApplicantListPage;

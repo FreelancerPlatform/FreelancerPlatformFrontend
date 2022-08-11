@@ -56,63 +56,63 @@ export function ViewApplicantsButton() {
 }
 
 
-export class ApplicantDetailInfoButton extends React.Component {
-    state = {
-        modalVisible: false,
-    };
+// export class ApplicantDetailInfoButton extends React.Component {
+//     state = {
+//         modalVisible: false,
+//     };
 
-    openModal = () => {
-        this.setState({
-            modalVisible: true,
-        });
-    };
+//     openModal = () => {
+//         this.setState({
+//             modalVisible: true,
+//         });
+//     };
 
-    handleCancel = () => {
-        this.setState({
-            modalVisible: false,
-        });
-    };
+//     handleCancel = () => {
+//         this.setState({
+//             modalVisible: false,
+//         });
+//     };
 
-    render() {
-        const { applicant } = this.props;
-        const { name, skills, education, certification, jobId } = applicant;
-        const { modalVisible } = this.state;
-        return (
-            <>
-                <Tooltip title="View Applicant Details">
-                    <Button
-                        onClick={this.openModal}
-                        style={{ border: "none" }}
-                        size="large"
-                        icon={<InfoCircleOutlined />}
-                    />
-                </Tooltip>
-                {modalVisible && (
-                    <Modal
-                        title={name}
-                        centered={true}
-                        visible={modalVisible}
-                        closable={false}
-                        footer={null}
-                        onCancel={this.handleCancel}
-                    >
-                        <Space direction="vertical">
-                            <Text strong={true}>Skills</Text>
-                            <Text type="secondary">{skills}</Text>
-                            <Text strong={true}>Education</Text>
-                            <Text type="secondary">{education}</Text>
-                            <Text strong={true}>Certification</Text>
-                            <Text type="secondary">{certification}</Text>
-                            <Text strong={true}>Job ID</Text>
-                            <Text type="secondary">{jobId}</Text>
-                        </Space>
-                    </Modal>
-                )}
-            </>
-        );
-    }
+//     render() {
+//         const { applicant } = this.props;
+//         const { name, skills, education, certification, jobId } = applicant;
+//         const { modalVisible } = this.state;
+//         return (
+//             <>
+//                 <Tooltip title="View Applicant Details">
+//                     <Button
+//                         onClick={this.openModal}
+//                         style={{ border: "none" }}
+//                         size="large"
+//                         icon={<InfoCircleOutlined />}
+//                     />
+//                 </Tooltip>
+//                 {modalVisible && (
+//                     <Modal
+//                         title={name}
+//                         centered={true}
+//                         visible={modalVisible}
+//                         closable={false}
+//                         footer={null}
+//                         onCancel={this.handleCancel}
+//                     >
+//                         <Space direction="vertical">
+//                             <Text strong={true}>Skills</Text>
+//                             <Text type="secondary">{skills}</Text>
+//                             <Text strong={true}>Education</Text>
+//                             <Text type="secondary">{education}</Text>
+//                             <Text strong={true}>Certification</Text>
+//                             <Text type="secondary">{certification}</Text>
+//                             <Text strong={true}>Job ID</Text>
+//                             <Text type="secondary">{jobId}</Text>
+//                         </Space>
+//                     </Modal>
+//                 )}
+//             </>
+//         );
+//     }
 
-}
+// }
 
 // export class JobDetailInfoButton extends React.Component {
 //     state = {
@@ -256,16 +256,16 @@ class MyJobs extends React.Component {
                 renderItem={(item) => (
                     <List.Item>
                         <Card
-                            key={item.jobId}
+                            key={item.jobID}
                             title={
 
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <Text ellipsis={true} style={{ maxWidth: 150 }}>
-                                        {item.name}
+                                        {item.job_name}
                                     </Text>
                                     <hr />
                                     <Text>
-                                        Job ID: {item.jobId}
+                                        Job ID: {item.jobID}
                                     </Text>
                                 </div>
                             }
