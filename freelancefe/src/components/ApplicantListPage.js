@@ -136,8 +136,9 @@ class ApplicantList extends React.Component {
 
         try {
             const resp = await getApplicantsByJob(this.props.jobId);
+            resp = [...this.state.applicants];
             this.setState({
-                applicants: resp,
+                applicants: resp
             });
         } catch (error) {
             message.error(error.message);
