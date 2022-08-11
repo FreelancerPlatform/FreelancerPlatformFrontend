@@ -1,8 +1,8 @@
 import React from "react";
 import { message, Tabs, List, Typography, Button, Card } from "antd";
 import JobDetailInfoButton from "./JobDetailInfoButton";
-import { getJobsByType, getJobRecommendations, createApplication } from "../utils";
-//import { getJobsByType, getJobRecommendations, createApplication } from "../utilsTest";
+//import { getJobsByType, getJobRecommendations, createApplication } from "../utils";
+import { getJobsByType, getJobRecommendations, createApplication } from "../utilsTest";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -114,7 +114,7 @@ class DisplayJobsByType extends React.Component {
                             </Text>
                             <br></br>
                             <Text>
-                                <Text strong>Salary: </Text>{item.salary + " $/mo"}
+                                <Text strong>Salary: </Text>{item.salary + " $/hr"}
                             </Text>
                         </Card>
                     </List.Item>

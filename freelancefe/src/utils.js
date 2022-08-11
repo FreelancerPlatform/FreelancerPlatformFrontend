@@ -240,9 +240,9 @@ export const getJobRecommendations = () => {
 };
 
 // profile controller (permit applicant/employer)
-export const getProfile = () => {
+export const getProfile = (email) => {
     const authToken = localStorage.getItem("authToken");
-    const getProfileUrl = `${domain}/profile`;
+    const getProfileUrl = `${domain}/profile/${email}`;
 
     return fetch(getProfileUrl, {
         headers: {

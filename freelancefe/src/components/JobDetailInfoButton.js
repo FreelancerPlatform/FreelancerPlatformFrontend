@@ -2,8 +2,8 @@ import { message, Button, Tooltip, Space, Modal } from "antd";
 import { InfoCircleOutlined, } from "@ant-design/icons";
 import Text from "antd/lib/typography/Text";
 import React from "react";
-import { getJobById } from "../utils";
-//import { getJobById } from "../utilsTest";
+//import { getJobById } from "../utils";
+import { getJobById } from "../utilsTest";
 
 class JobDetailInfoButton extends React.Component {
     state = {
