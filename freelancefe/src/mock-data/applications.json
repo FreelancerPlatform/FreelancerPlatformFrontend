@@ -1,0 +1,16 @@
+[
+    {
+        "application_ID": 1,
+        "status": "PENDING",
+        "job_name": "web development",
+        "applicant_name": "John",
+        "email": "321@gmail.com"
+    },
+    {
+        "application_ID": 2,
+        "status": "HIRED",
+        "job_name": "baby sitting",
+        "applicant_name": "Lara",
+        "email": "123@gmail.com"
+    }
+]

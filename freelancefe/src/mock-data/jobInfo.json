@@ -1,0 +1,9 @@
+{
+    "job_name": "web development",
+    "location": "Beijing, China",
+    "salary": 200,
+    "content": "develop a website",
+    "email": "xxx@gmail.com",
+    "job_type": "IT",
+    "skill": ["JAVA", "JS"]
+}
