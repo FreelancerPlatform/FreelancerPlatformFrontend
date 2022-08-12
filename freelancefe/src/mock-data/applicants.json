@@ -1,17 +1,17 @@
 [
     {
-        "name": "John Smith",
-        "skills": "java, javascript",
-        "education": "Graduate",
-        "certification": "Microsoft programming certification",
-        "jobId": 1
-    },
-    {
-        "name": "Mike Computer",
-        "skills": "java, javascript",
-        "education": "Graduate",
-        "certification": "",
-        "jobId": 1
+        "email": "xxx@gmainl.com",
+        "name": "John",
+        "gender": "male",
+        "education_level": "graduate",
+        "certification": [
+            "java",
+            "aws"
+        ],
+        "skill": [
+            "JAVA",
+            "SQL"
+        ],
+        "rate": 4.48
     }
-
 ]
