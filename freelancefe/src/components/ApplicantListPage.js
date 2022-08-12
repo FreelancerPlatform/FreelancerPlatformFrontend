@@ -17,9 +17,6 @@ import React from "react";
 import { getJobsByEmployer, getApplicationsByJob, closeJob, getProfile } from "../utilsTest";
 //import { deleteJob } from "../utils";
 
-const { Meta } = Card;
-
-const { TabPane } = Tabs;
 
 class HireButton extends React.Component {
     state = {
@@ -225,26 +222,15 @@ class ApplicantList extends React.Component {
 }
 
 class ApplicantListPage extends React.Component {
-    
- 
+
     render() {
-        
+        const { jobs } = this.props.jobID;
         return (
-            
-                <div>
-                <h1>
-                    <Text ellipsis={true} style={{ maxWidth: 150 }}>
-                    Job Name 
-                    </Text>
-                </h1>
-                <ApplicantList  />
-
-            </div>
-                
-            )
-
-    
-        }
+          <div>
+            <ApplicantList jobID={this.props.jobID} />
+          </div>
+        );
+      }
 }
 
 export default ApplicantListPage;

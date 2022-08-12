@@ -11,49 +11,93 @@ import {
 import {
     InfoCircleOutlined,
 } from "@ant-design/icons";
-import {Routes, Route, useNavigate, Link, BrowserRouter} from 'react-router-dom';
+import { Routes, Route, useNavigate, Link, BrowserRouter } from 'react-router-dom';
 import Text from "antd/lib/typography/Text";
 import React from "react";
-import { getJobsByEmployer,getApplicantsByJob } from "../utilsTest";
+import { getJobsByEmployer, getApplicantsByJob } from "../utilsTest";
 import { deleteJob } from "../utils";
 import ApplicantListPage from "./ApplicantListPage";
 //import {ApplicantList} from "./ApplicantListPage";
 import TestPage from "./TestPage";
 
-const {Meta} = Card;
+const { Meta } = Card;
 
 const { TabPane } = Tabs;
 
+class ViewApplicantsButton extends React.Component {
+    //   const navigate = useNavigate();
 
-export function ViewApplicantsButton() {
-    const navigate = useNavigate();
+    //   const navigateToApplicants = () => {
+    //     navigate("/applicants", { replace: true });
+    //   };
 
-    const navigateToApplicants=() => {
-        navigate('/applicants', {replace: true});
+    //   const navigateToJobs = () => {
+    //     navigate("/");
+    //   };
+
+    onClick = () => {
+        this.props.showApplications(this.props.id);
     };
 
-    const navigateToJobs=() => {
-        navigate('/');
-    };
+    render() {
+        return (
+            // <div>
+            //   {/* <ul>
+            //             <li>
+            //                 <Link to ="/applicants">
+            //                     View Applicants
+            //                 </Link>
+            //             </li>
+            //         </ul> */}
+            //   <button onClick={navigateToApplicants}>View Applicants</button>
+            //   <Routes>
+            //     <Route path="/applicants" element={<ApplicantListPage />} />
+            //   </Routes>
+            //</div>
+            <Button onClick={this.onClick}>View Applicants</Button>
 
-    return (
-        <div>
-            {/* <ul>
-                <li>
-                    <Link to ="/applicants">
-                        View Applicants
-                    </Link>
-                </li>
-            </ul> */}
-            <button onClick={navigateToApplicants}>
-                View Applicants
-            </button>
-            <Routes>
-                <Route path="/applicants" element={<ApplicantListPage />} />                                
-            </Routes>
-        </div>
-    );
+
+        );
+    }
 }
+
+// export function ViewApplicantsButton(props) {
+
+
+//     const navigate = useNavigate();
+
+//     const navigateToApplicants = () => {
+//         navigate('/applicants', { replace: true });
+//     };
+
+//     const navigateToJobs = () => {
+//         navigate('/');
+//     };
+
+//     //    handleClick = ()=> {
+
+//     //     }; 
+
+//     //const {job} = this.state;
+
+//     return (
+//         <div>
+//             {/* <ul>
+//                 <li>
+//                     <Link to ="/applicants" component={ApplicantListPage}>
+//                         View Applicants
+//                     </Link>
+//                 </li>
+//             </ul> */}
+//             <button onClick={navigateToApplicants}>
+//               View Applicants {props.jobID}
+//             </button>
+//             <Routes>
+//                 <Route path="/applicants" element={<ApplicantListPage />} />
+//             </Routes>
+//         </div>
+//     );
+// }
 
 
 // export class ApplicantDetailInfoButton extends React.Component {
@@ -182,7 +226,7 @@ class RemoveJobButton extends React.Component {
         });
 
         try {
-            await deleteJob(job.id);
+            await deleteJob(job.jobID);
             onRemoveSuccess();
         } catch (error) {
             message.error(error.message);
@@ -270,14 +314,14 @@ class MyJobs extends React.Component {
                                 </div>
                             }
                             actions={[
-                                <ViewApplicantsButton job={item} />,
+                                <ViewApplicantsButton jobID={item.jobID} />,
                                 <RemoveJobButton job={item} onRemoveSuccess={this.loadData} />
                             ]}
                         >
-                            <Meta 
-                            title="Description"
-                            description={item.description}
-                            /> 
+                            <Meta
+                                title="Description"
+                                description={item.description}
+                            />
 
                         </Card>
                     </List.Item>
@@ -291,11 +335,30 @@ class MyJobs extends React.Component {
 
 
 class EmployerHomePage extends React.Component {
+    state = {
+        displayJobs: true,
+        jobID: "0",
+    };
+
+    showApplications = (id) => {
+        this.setState({
+            displayJobs: false,
+            jobID: id,
+        });
+    };
+
+    renderPage = () => {
+        if (this.state.displayJobs) {
+            return <MyJobs showApplications={this.showApplications} />;
+        }
+        return <ApplicantListPage jobID={this.state.jobID} />;
+    };
+
     render() {
         return (
             <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
                 <TabPane tab="Posted Jobs" key="1">
-                    <MyJobs />
+                    {this.renderPage()}
                 </TabPane>
                 <TabPane tab="Post A New Job" key="2">
                     <div>Upload Stays</div>
