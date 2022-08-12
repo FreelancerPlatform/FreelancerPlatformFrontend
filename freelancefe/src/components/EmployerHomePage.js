@@ -295,9 +295,15 @@ class EmployerHomePage extends React.Component {
     return <ApplicantListPage jobID={this.state.jobID} />;
   };
 
+  onTabClick = ()=>{
+    this.setState({
+        displayJobs: true,
+    });
+};
+
   render() {
     return (
-      <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
+      <Tabs defaultActiveKey="1" destroyInactiveTabPane={true} onTabClick={this.onTabClick}>
         <TabPane tab="Posted Jobs" key="1">
           {this.renderPage()}
         </TabPane>
