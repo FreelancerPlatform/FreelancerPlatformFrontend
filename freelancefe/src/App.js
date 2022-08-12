@@ -4,17 +4,20 @@ import React from "react";
 import ApplicantHomePage from "./components/ApplicantHomePage";
 import EmployerHomePage from "./components/EmployerHomePage";
 import ApplicantViewApplicationsPage from "./components/ApplicantViewApplicationsPage";
-import ApplicantListPage from "./components/ApplicantListPage";
-import LoginPage from "./components/LoginPage";
+// import ApplicantListPage from "./components/ApplicantListPage";
+// import LoginPage from "./components/LoginPage";
 import AppHeader from "./components/AppHeader";
 import UploadJobPage from "./components/UploadJob";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 const { Content, Footer } = Layout;
 
 class App extends React.Component {
   state = {
-    authed: true,
-    asEmployer: false,
+    authed: false,
+    registered: true,
+    asEmployer: true,
     pageKey: "",
   };
 
@@ -27,12 +30,36 @@ class App extends React.Component {
   //   });
   // }
 
-  handleLoginSuccess = (token, asHost) => {
+  //handleLoginSuccess = (token, role) => {
+  handleLoginSuccess = (role) => {
     // localStorage.setItem("authToken", token);
     // localStorage.setItem("asHost", asHost);
     this.setState({
       authed: true,
-      asHost,
+      asEmployer: role === "employer",
+    });
+  };
+
+  //handleRegisterSuccess = (token, role) => {
+  handleRegisterSuccess = (role) => {
+    // localStorage.setItem("authToken", token);
+    // localStorage.setItem("asHost", asHost);
+    this.setState({
+      registered: true,
+      authed: true,
+      asEmployer: role === "employer",
+    });
+  };
+
+  handleNeedRegister = () => {
+    this.setState({
+      registered: false,
+    });
+  };
+
+  handleNeedLogin = () => {
+    this.setState({
+      registered: true,
     });
   };
 
@@ -47,8 +74,22 @@ class App extends React.Component {
   };
 
   renderContent = () => {
+    if (!this.state.registered) {
+      return (
+        <Register
+          handleLoginSuccess={this.handleRegisterSuccess}
+          handleNeedLogin={this.handleNeedLogin}
+        />
+      );
+    }
+
     if (!this.state.authed) {
-      return <LoginPage />;
+      return (
+        <Login
+          handleLoginSuccess={this.handleLoginSuccess}
+          handleNeedRegister={this.handleNeedRegister}
+        />
+      );
     }
 
     if (!this.state.asEmployer) {
