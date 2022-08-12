@@ -15,6 +15,7 @@ import {
 import Text from "antd/lib/typography/Text";
 import React from "react";
 import { getJobsByEmployer, getApplicationsByJob, closeJob, getProfile } from "../utilsTest";
+import Title from "antd/lib/skeleton/Title";
 //import { deleteJob } from "../utils";
 
 
@@ -24,7 +25,7 @@ class HireButton extends React.Component {
     };
 
     handleRemoveJob = async () => {
-        const { applicants, hireSuccess } = this.props;
+        const { applicants, hireSuccess, jobs } = this.props;
         this.setState({
             loading: true,
         });
@@ -226,11 +227,14 @@ class ApplicantListPage extends React.Component {
     render() {
         const { jobs } = this.props.jobID;
         return (
-          <div>
-            <ApplicantList jobID={this.props.jobID} />
-          </div>
+            <div>
+                <h1>
+                    Job ID: {this.props.jobID}
+                </h1>
+                <ApplicantList jobID={this.props.jobID} />
+            </div>
         );
-      }
+    }
 }
 
 export default ApplicantListPage;
