@@ -19,15 +19,6 @@ class UploadJob extends React.Component {
     // const formData = new FormData();
     const formInstance = this.fileInputRef.current;
 
-    // if (files.length > 5) {
-    //   message.error("You can at most upload 5 pictures.");
-    //   return;
-    // }
-
-    // for (let i = 0; i < files.length; i++) {
-    //   formData.append("images", files[i]);
-    // }
-
     // formData.append("job_name", values.job_name);
     // formData.append("location", values.location);
     // formData.append("salary", values.salary);
@@ -114,6 +105,7 @@ class UploadJob extends React.Component {
             <InputNumber placeholder="eg. 45" />
           </Form.Item>
           <Form.Item name="job_type" label="Type" rules={[{ required: true }]}>
+
             <Select placeholder="Select Job Type">
               <Option value="TECHNOLOGY">TECHNOLOGY</Option>
               <Option value="HEALTH">HEALTH</Option>

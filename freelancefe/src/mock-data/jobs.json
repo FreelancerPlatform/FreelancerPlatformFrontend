@@ -1,0 +1,27 @@
+[
+    {
+        "jobID": 1,
+        "job_name": "web development",
+        "location": "Beijing, China",
+        "salary": 200,
+        "content": "develop a website",
+        "employer": {
+        "email": "jhon@gmail.com"
+        },
+        "status": "PUBLIC",
+        "job_type": "IT"
+        },
+        {
+            "jobID": 2,
+            "job_name": "software development",
+            "location": "Beijing, China",
+            "salary": 200,
+            "content": "develop a website",
+            "employer": {
+            "email": "jhon@gmail.com"
+            },
+            "status": "PUBLIC",
+            "job_type": "IT"
+            }
+            
+]

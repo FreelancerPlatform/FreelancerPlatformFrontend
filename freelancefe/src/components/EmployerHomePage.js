@@ -1,4 +1,5 @@
 import React from "react";
+
 import { message, List, Card, Button } from "antd";
 
 import Text from "antd/lib/typography/Text";
@@ -44,7 +45,6 @@ class RemoveJobButton extends React.Component {
       });
     }
   };
-
   render() {
     return (
       <Button

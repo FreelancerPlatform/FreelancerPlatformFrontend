@@ -1,0 +1,17 @@
+[
+    {
+        "email": "xxx@gmainl.com",
+        "name": "John",
+        "gender": "male",
+        "education_level": "graduate",
+        "certification": [
+            "java",
+            "aws"
+        ],
+        "skill": [
+            "JAVA",
+            "SQL"
+        ],
+        "rate": 4.48
+    }
+]

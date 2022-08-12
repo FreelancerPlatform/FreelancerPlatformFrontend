@@ -1,3 +1,4 @@
+
 import logo from "./logo.svg";
 import { Layout } from "antd";
 import React from "react";
@@ -27,6 +28,7 @@ class App extends React.Component {
       asEmployer,
     });
   }
+
 
   handleLoginSuccess = (token, asEmployer) => {
     localStorage.setItem("authToken", token);
