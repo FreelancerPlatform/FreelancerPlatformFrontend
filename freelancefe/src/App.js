@@ -4,8 +4,6 @@ import React from "react";
 import ApplicantHomePage from "./components/ApplicantHomePage";
 import EmployerHomePage from "./components/EmployerHomePage";
 import ApplicantViewApplicationsPage from "./components/ApplicantViewApplicationsPage";
-// import ApplicantListPage from "./components/ApplicantListPage";
-// import LoginPage from "./components/LoginPage";
 import AppHeader from "./components/AppHeader";
 import UploadJobPage from "./components/UploadJob";
 import Login from "./components/Login";
@@ -17,33 +15,31 @@ class App extends React.Component {
   state = {
     authed: false,
     registered: true,
-    asEmployer: true,
+    asEmployer: false,
     pageKey: "",
   };
 
-  // componentDidMount() {
-  //   const authToken = localStorage.getItem("authToken");
-  //   const asHost = localStorage.getItem("asHost") === "true";
-  //   this.setState({
-  //     authed: authToken !== null,
-  //     asHost,
-  //   });
-  // }
+  componentDidMount() {
+    const authToken = localStorage.getItem("authToken");
+    const asEmployer = localStorage.getItem("asEmployer") === "true";
+    this.setState({
+      authed: authToken !== null,
+      asEmployer,
+    });
+  }
 
-  //handleLoginSuccess = (token, role) => {
-  handleLoginSuccess = (role) => {
-    // localStorage.setItem("authToken", token);
-    // localStorage.setItem("asHost", asHost);
+  handleLoginSuccess = (token, asEmployer) => {
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("asEmployer", asEmployer);
     this.setState({
       authed: true,
-      asEmployer: role === "employer",
+      asEmployer,
     });
   };
 
-  //handleRegisterSuccess = (token, role) => {
-  handleRegisterSuccess = (role) => {
-    // localStorage.setItem("authToken", token);
-    // localStorage.setItem("asHost", asHost);
+  handleRegisterSuccess = (token, role) => {
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("asEmployer", role === "employer");
     this.setState({
       registered: true,
       authed: true,
@@ -103,8 +99,8 @@ class App extends React.Component {
   };
 
   handleLogOut = () => {
-    // localStorage.removeItem("authToken");
-    // localStorage.removeItem("asHost");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("asEmployer");
     this.setState({
       authed: false,
     });
@@ -125,7 +121,7 @@ class App extends React.Component {
           {this.renderContent()}
         </Content>
         <Footer style={{ textAlign: "center", padding: "0 0" }}>
-          FreeLaunch ©2022
+          FlexLancer ©2022
         </Footer>
       </Layout>
     );

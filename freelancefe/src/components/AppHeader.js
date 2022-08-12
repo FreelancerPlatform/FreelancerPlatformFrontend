@@ -1,7 +1,7 @@
 import React from "react";
-import { Layout, Dropdown, Menu, Button, Typography } from "antd";
+import { Layout, Menu, Typography } from "antd";
 
-const { Content, Header } = Layout;
+const { Header } = Layout;
 const { Text } = Typography;
 
 class AppHeader extends React.Component {
@@ -19,7 +19,12 @@ class AppHeader extends React.Component {
   );
 
   employerMenu = (
-    <Menu theme="dark" mode="horizontal" disabledOverflow="true">
+    <Menu
+      theme="dark"
+      mode="horizontal"
+      disabledOverflow="true"
+      onClick={this.props.flipPage}
+    >
       <Menu.Item key="jobs">Posted Jobs</Menu.Item>
       <Menu.Item key="add">Post A New Job</Menu.Item>
       <Menu.Item key="logout">Log Out</Menu.Item>
@@ -34,11 +39,11 @@ class AppHeader extends React.Component {
   };
 
   render() {
-    const { authed, asEmployer } = this.props;
+    const { authed } = this.props;
     return (
       <Header style={{ display: "flex", justifyContent: "space-between" }}>
         <Text style={{ fontSize: 16, fontWeight: 600, color: "white" }}>
-          FreeLaunch
+          FlexLancer
         </Text>
 
         {authed && this.renderMenu()}

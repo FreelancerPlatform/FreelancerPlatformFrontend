@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Form, Input, Radio, Button, Select, message, Space } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
-//import { register } from "../utils";
-import { register } from "../utilsTest";
+import { register } from "../utils";
+// import { register } from "../utilsTest";
 
 const { Option } = Select;
 
@@ -14,8 +14,6 @@ class Register extends React.Component {
     gender: "na",
     education_level: "UNDER_GRADUATE",
   };
-  // const [employer, setEmployer] = useState("");
-  // const [gender, setGender] = useState("male");
 
   onFinish = (values) => {
     console.log("Success:", values);
@@ -53,8 +51,14 @@ class Register extends React.Component {
     });
 
     let credentials = formInstance.getFieldsValue(true);
-    credentials.skill = credentials.skill.toUpperCase().split(",");
-    credentials.certification = credentials.certification.split(",");
+    if (this.state.role === "applicant") {
+      credentials.skill = credentials.skill.toUpperCase().split(",");
+      if (!credentials.certification) credentials.certification = [];
+      else credentials.certification = credentials.certification.split(",");
+    } else {
+      delete credentials["skill"];
+      delete credentials["certification"];
+    }
     credentials.gender = this.state.gender;
     credentials.education_level = this.state.education_level;
 
@@ -147,7 +151,7 @@ class Register extends React.Component {
                 validator: (_, value) => {
                   if (value.length < 6)
                     return Promise.reject(
-                      "The password should be longer than 6 characters"
+                      "The password should include more than than 6 letters and numbers"
                     );
                   else {
                     let reg = /^(?![^a-zA-Z]+$)(?!\D+S)/;

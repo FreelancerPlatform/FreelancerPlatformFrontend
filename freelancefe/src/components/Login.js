@@ -1,10 +1,8 @@
 import React from "react";
 import { Button, Form, Input, message, Radio, Space } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
-//import { login } from "../utils";
-import { login } from "../utilsTest";
-
-// import {browserHistory} from 'react-dom'
+import { login } from "../utils";
+// import { login } from "../utilsTest";
 
 class Login extends React.Component {
   formRef = React.createRef();
@@ -13,8 +11,8 @@ class Login extends React.Component {
     loading: false,
   };
 
-  onFinish = (values) => {
-    this.props.history.push("/user");
+  onFinish = () => {
+    console.log("finish form");
   };
 
   onFinishFailed = (errorInfo) => {
@@ -36,10 +34,8 @@ class Login extends React.Component {
 
     try {
       const { role } = this.state;
-      // const resp = await login(formInstance.getFieldsValue(true), role);
-      await login(formInstance.getFieldsValue(true), role);
-      // this.props.handleLoginSuccess(resp.token, role);
-      this.props.handleLoginSuccess(role);
+      const resp = await login(formInstance.getFieldsValue(true), role);
+      this.props.handleLoginSuccess(resp.token, role === "employer");
     } catch (error) {
       message.error(error.message);
     } finally {

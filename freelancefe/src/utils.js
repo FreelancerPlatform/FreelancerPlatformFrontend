@@ -1,7 +1,8 @@
-const domain = "the url you deployed your backend to";
+const domain = "http://localhost:8080";
 
 // Login token-based authentication (permit all)
-export const login = (credential, role) => { // typeof dropdown menu input == string? depends on login page
+export const login = (credential, role) => {
+  // typeof dropdown menu input == string? depends on login page
   const loginUrl = `${domain}/authenticate/${role}`; // role: "employer" || "applicant"
   return fetch(loginUrl, {
     method: "POST",
@@ -13,7 +14,7 @@ export const login = (credential, role) => { // typeof dropdown menu input == st
     if (response.status !== 200) {
       throw Error("Failed to log in");
     }
- 
+
     return response.json();
   });
 };
@@ -38,7 +39,7 @@ export const register = (credential, role) => {
 export const getJobsByType = (job_type) => {
   const authToken = localStorage.getItem("authToken");
   const getJobsUrl = `${domain}/jobs/${job_type}`; // if (!job_type) return all jobs
- 
+
   return fetch(getJobsUrl, {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -53,8 +54,8 @@ export const getJobsByType = (job_type) => {
 
 export const getJobById = (job_ID) => {
   const authToken = localStorage.getItem("authToken");
-  const getJobUrl = `${domain}/jobs/${job_ID}`; 
- 
+  const getJobUrl = `${domain}/jobs/job_info/${job_ID}`;
+
   return fetch(getJobUrl, {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -71,7 +72,7 @@ export const getJobById = (job_ID) => {
 export const getJobsByEmployer = () => {
   const authToken = localStorage.getItem("authToken");
   const listJobsUrl = `${domain}/employer/jobs`;
- 
+
   return fetch(listJobsUrl, {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -80,21 +81,24 @@ export const getJobsByEmployer = () => {
     if (response.status !== 200) {
       throw Error("Failed to get job list");
     }
- 
+
     return response.json();
   });
 };
 
 export const uploadJob = (data) => {
   const authToken = localStorage.getItem("authToken");
-  const uploadJobUrl = `${domain}/jobs`;
- 
+  const uploadJobUrl = `${domain}/employer/job`;
+  // console.log(JSON.stringify(data));
+  // console.log(data);
+
   return fetch(uploadJobUrl, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${authToken}`,
     },
-    body: data, // double check with upload job page
+    body: JSON.stringify(data),
+    // body: data,
   }).then((response) => {
     if (response.status !== 200) {
       throw Error("Failed to upload job");
@@ -104,8 +108,8 @@ export const uploadJob = (data) => {
 
 export const getApplicationsByJob = (job_Id) => {
   const authToken = localStorage.getItem("authToken");
-  const getApplicationsByJobUrl = `${domain}"/employer/applications/${job_Id}`;
- 
+  const getApplicationsByJobUrl = `${domain}/employer/applications/${job_Id}`;
+
   return fetch(getApplicationsByJobUrl, {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -114,7 +118,7 @@ export const getApplicationsByJob = (job_Id) => {
     if (response.status !== 200) {
       throw Error("Failed to get applications by job");
     }
- 
+
     return response.json();
   });
 };
@@ -122,7 +126,7 @@ export const getApplicationsByJob = (job_Id) => {
 export const hireApplicant = (application_ID) => {
   const authToken = localStorage.getItem("authToken");
   const hireApplicantUrl = `${domain}/employer/hire/${application_ID}`;
- 
+
   return fetch(hireApplicantUrl, {
     method: "POST",
     headers: {
@@ -139,7 +143,7 @@ export const hireApplicant = (application_ID) => {
 export const rateApplicant = (application_ID, rate) => {
   const authToken = localStorage.getItem("authToken");
   const rateApplicantUrl = `${domain}/employer/rate/${application_ID}/${rate}`;
- 
+
   return fetch(rateApplicantUrl, {
     method: "POST",
     headers: {
@@ -156,7 +160,7 @@ export const rateApplicant = (application_ID, rate) => {
 export const closeJob = (job_ID) => {
   const authToken = localStorage.getItem("authToken");
   const closeJobUrl = `${domain}/employer/close/${job_ID}`;
- 
+
   return fetch(closeJobUrl, {
     method: "POST",
     headers: {
@@ -174,7 +178,7 @@ export const closeJob = (job_ID) => {
 export const getApplications = () => {
   const authToken = localStorage.getItem("authToken");
   const listApplicationsUrl = `${domain}/applications`;
- 
+
   return fetch(listApplicationsUrl, {
     headers: {
       Authorization: `Bearer ${authToken}`,
@@ -183,7 +187,7 @@ export const getApplications = () => {
     if (response.status !== 200) {
       throw Error("Failed to get submitted applications");
     }
- 
+
     return response.json();
   });
 };
@@ -191,7 +195,7 @@ export const getApplications = () => {
 export const createApplication = (job_id) => {
   const authToken = localStorage.getItem("authToken");
   const createApplicationUrl = `${domain}/applications/${job_id}`;
- 
+
   return fetch(createApplicationUrl, {
     method: "POST",
     headers: {
@@ -209,7 +213,7 @@ export const createApplication = (job_id) => {
 export const withdrawApplication = (application_ID) => {
   const authToken = localStorage.getItem("authToken");
   const withdrawApplicationUrl = `${domain}/applications/${application_ID}`;
- 
+
   return fetch(withdrawApplicationUrl, {
     method: "DELETE",
     headers: {
@@ -224,36 +228,35 @@ export const withdrawApplication = (application_ID) => {
 
 // get recommendation based on skill (permit applicant)
 export const getJobRecommendations = () => {
-    const authToken = localStorage.getItem("authToken");
-    const getRecommendedJobsUrl = `${domain}/recommendation`;
-    return fetch(getRecommendedJobsUrl, {
-        headers: {
-            Authorization: `Bearer ${authToken}`,
-        },
-    }).then((response) => {
-        if (response.status !== 200) {
-            throw Error('Failed to get recommended jobs');
-        }
+  const authToken = localStorage.getItem("authToken");
+  const getRecommendedJobsUrl = `${domain}/recommendation`;
+  return fetch(getRecommendedJobsUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Failed to get recommended jobs");
+    }
 
-        return response.json();
-    });
+    return response.json();
+  });
 };
 
 // profile controller (permit applicant/employer)
 export const getProfile = (email) => {
-    const authToken = localStorage.getItem("authToken");
-    const getProfileUrl = `${domain}/profile/${email}`;
+  const authToken = localStorage.getItem("authToken");
+  const getProfileUrl = `${domain}/profile/${email}`;
 
-    return fetch(getProfileUrl, {
-        headers: {
-            Authorization: `Bearer ${authToken}`,
-        },
-    }).then((response) => {
-        if (response.status !== 200) {
-            throw Error('Failed to get profile');
-        }
+  return fetch(getProfileUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (response.status !== 200) {
+      throw Error("Failed to get profile");
+    }
 
-        return response.json();
-    });
+    return response.json();
+  });
 };
-
