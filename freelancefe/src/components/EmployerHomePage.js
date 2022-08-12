@@ -1,56 +1,27 @@
 import React from "react";
-import { message, Tabs, List, Card, Button, Tooltip, Space, Modal } from "antd";
 
-import { InfoCircleOutlined } from "@ant-design/icons";
-// import { Routes, Route, useNavigate, Link } from "react-router-dom";
+import { message, List, Card, Button } from "antd";
+
 import Text from "antd/lib/typography/Text";
 import ApplicantListPage from "./ApplicantListPage";
-import {
-  getJobsByEmployer,
-  getApplicationsByJob,
-  closeJob,
-} from "../utilsTest";
-// import { deleteJob } from "../utils";
+// import {
+//   getJobsByEmployer,
+//   getApplicationsByJob,
+//   closeJob,
+// } from "../utilsTest";
+import { getJobsByEmployer, closeJob } from "../utils";
 
 const { Meta } = Card;
 
-const { TabPane } = Tabs;
-
 class ViewApplicantsButton extends React.Component {
-  //   const navigate = useNavigate();
-
-  //   const navigateToApplicants = () => {
-  //     navigate("/applicants", { replace: true });
-  //   };
-
-  //   const navigateToJobs = () => {
-  //     navigate("/");
-  //   };
-
   onClick = () => {
     this.props.showApplications(this.props.id);
   };
 
   render() {
-    return (
-      // <div>
-      //   {/* <ul>
-      //             <li>
-      //                 <Link to ="/applicants">
-      //                     View Applicants
-      //                 </Link>
-      //             </li>
-      //         </ul> */}
-      //   <button onClick={navigateToApplicants}>View Applicants</button>
-      //   <Routes>
-      //     <Route path="/applicants" element={<ApplicantListPage />} />
-      //   </Routes>
-      // </div>
-      <Button onClick={this.onClick}>View Applicants</Button>
-    );
+    return <Button onClick={this.onClick}>View Applicants</Button>;
   }
 }
-
 
 class RemoveJobButton extends React.Component {
   state = {
@@ -58,13 +29,13 @@ class RemoveJobButton extends React.Component {
   };
 
   handleRemoveJob = async () => {
-    const { job, onRemoveSuccess } = this.props;
+    const { jobID, onRemoveSuccess } = this.props;
     this.setState({
       loading: true,
     });
 
     try {
-      await closeJob(job.id);
+      await closeJob(jobID);
       onRemoveSuccess();
     } catch (error) {
       message.error(error.message);
@@ -74,7 +45,6 @@ class RemoveJobButton extends React.Component {
       });
     }
   };
-
   render() {
     return (
       <Button
@@ -149,12 +119,18 @@ class MyJobs extends React.Component {
               actions={[
                 <ViewApplicantsButton
                   id={item.jobID}
+                  // name={item.job_name}
                   showApplications={this.props.showApplications}
                 />,
-                <RemoveJobButton job={item} onRemoveSuccess={this.loadData} />,
+                item.status !== "CLOSED" && (
+                  <RemoveJobButton
+                    jobID={item.jobID}
+                    onRemoveSuccess={this.loadData}
+                  />
+                ),
               ]}
             >
-              <Meta title="Description" description={item.description} />
+              <Meta title="Description" description={item.content} />
             </Card>
           </List.Item>
         )}
@@ -180,26 +156,22 @@ class EmployerHomePage extends React.Component {
     if (this.state.displayJobs) {
       return <MyJobs showApplications={this.showApplications} />;
     }
-    return <ApplicantListPage jobID={this.state.jobID} />;
+    return (
+      <ApplicantListPage
+        jobID={this.state.jobID}
+        onTabClick={this.onTabClick}
+      />
+    );
   };
 
-  onTabClick = ()=>{
+  onTabClick = () => {
     this.setState({
-        displayJobs: true,
+      displayJobs: true,
     });
-};
+  };
 
   render() {
-    return (
-      <Tabs defaultActiveKey="1" destroyInactiveTabPane={true} onTabClick={this.onTabClick}>
-        <TabPane tab="Posted Jobs" key="1">
-          {this.renderPage()}
-        </TabPane>
-        <TabPane tab="Post A New Job" key="2">
-          <div>Upload Stays</div>
-        </TabPane>
-      </Tabs>
-    );
+    return <>{this.renderPage()}</>;
   }
 }
 export default EmployerHomePage;
