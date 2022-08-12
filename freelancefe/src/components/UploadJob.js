@@ -32,7 +32,7 @@ class UploadJob extends React.Component {
     formData.append("location", values.location);
     formData.append("salary", values.salary);
     formData.append("job_type", values.job_type); 
-    formData.append("skill", values.skill);
+    formData.append("skill", values.skill.toUpperCase().split(','));
     formData.append("content", values.content);
 
  
