@@ -1,0 +1,22 @@
+body {
+    background-image: url('https://i.redd.it/5c21b21zusg91.jpg');
+    
+    background-size: cover;
+}
+
+.ant-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    left: 30%;
+    top: 10%;
+    margin: 10px;
+    background-color: rgba(245, 241, 241, 0.5);
+}
+
+.ant-form-item {
+    width: 500px;
+    margin: 10px;
+    text-align: center;
+}
