@@ -111,7 +111,7 @@ class UploadJob extends React.Component {
             rules={[
               { required: true },
               {
-                pattern: /^(([a-zA-Z0-9][\s]?(,)?)*)+$/,
+                pattern: /^(([a-zA-Z0-9][+]*[\s]?(,)?)*)+$/,
                 message:
                   "Separate each skill with comma, no space after comma, no special character",
               },
