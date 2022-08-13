@@ -1,7 +1,6 @@
 import React from "react";
 import { message, List, Typography, Button, Card } from "antd";
 import { getApplications, withdrawApplication } from "../utils";
-// import { getApplications, withdrawApplication } from "../utilsTest";
 
 const { Text } = Typography;
 
@@ -11,13 +10,13 @@ class WithdrawButton extends React.Component {
   };
 
   handleWithdrawApplication = async () => {
-    const { application_ID, onWithdrawSuccess } = this.props;
+    const { applicationID, onWithdrawSuccess } = this.props;
     this.setState({
       loading: true,
     });
 
     try {
-      await withdrawApplication(application_ID);
+      await withdrawApplication(applicationID);
       message.success("Withdrawal Successful!");
     } catch (error) {
       message.error(error.message);
@@ -112,7 +111,7 @@ class ApplicantViewApplicationsPage extends React.Component {
                 item.status === "PENDING" && (
                   <WithdrawButton
                     onWithdrawSuccess={this.loadData}
-                    application_ID={item.application_ID}
+                    applicationID={item.applicationID}
                   />
                 )
               }

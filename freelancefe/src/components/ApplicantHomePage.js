@@ -6,7 +6,6 @@ import {
   getJobRecommendations,
   createApplication,
 } from "../utils";
-// import { getJobsByType, getJobRecommendations, createApplication } from "../utilsTest";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;

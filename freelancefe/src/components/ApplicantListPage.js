@@ -18,8 +18,6 @@ import {
   hireApplicant,
   rateApplicant,
 } from "../utils";
-import Title from "antd/lib/skeleton/Title";
-//import { deleteJob } from "../utils";
 
 class HireButton extends React.Component {
   state = {
@@ -69,7 +67,6 @@ class RateButton extends React.Component {
   openModal = () => {
     this.setState({
       modalVisible: true,
-      loading: true,
     });
   };
 
@@ -84,7 +81,6 @@ class RateButton extends React.Component {
     this.setState({
       rating: num,
     });
-    console.log(this.state.rating);
   };
 
   handleRate = async () => {
@@ -120,6 +116,7 @@ class RateButton extends React.Component {
           <Modal
             title="Please rate the freelancer: "
             centered={true}
+            loading={loading}
             visible={modalVisible}
             closable={false}
             onCancel={this.handleCancel}
@@ -200,7 +197,7 @@ class ApplicantDetailInfoButton extends React.Component {
 
   render() {
     const { applicantInfo } = this.state;
-    const { email, name, gender, education_level, certification, skill, rate } =
+    const { email, name, gender, educationLevel, certification, skill, rate } =
       applicantInfo;
     const { modalVisible } = this.state;
     return (
@@ -234,7 +231,7 @@ class ApplicantDetailInfoButton extends React.Component {
                 </Text>
               }
               <Text strong={true}>Education</Text>
-              <Text type="secondary">{education_level}</Text>
+              <Text type="secondary">{educationLevel}</Text>
               <Text strong={true}>Certification</Text>
               {
                 <Text>
@@ -270,7 +267,6 @@ class ApplicantList extends React.Component {
 
     try {
       const resp = await getApplicationsByJob(this.props.jobID);
-      //resp = [...this.state.applicants];
       this.setState({
         applicants: resp,
       });
@@ -336,10 +332,7 @@ class ApplicantList extends React.Component {
                   <ApplicantDetailInfoButton email={item.email} />
                 </div>
               }
-              actions={[
-                //<ViewApplicantsButton job={item} />,
-                this.displayButton(item.status, item.applicationID),
-              ]}
+              actions={[this.displayButton(item.status, item.applicationID)]}
             >
               {this.displayStatus(item.status)}
             </Card>
@@ -352,11 +345,9 @@ class ApplicantList extends React.Component {
 
 class ApplicantListPage extends React.Component {
   render() {
-    // const { jobs } = this.props.jobID;
     return (
       <div>
         <h1>Job ID: {this.props.jobID}</h1>
-        {/* <h1>Job: {this.props.name}</h1> */}
         <ApplicantList jobID={this.props.jobID} />
         <Button onClick={this.props.onTabClick}>Return to Job List</Button>
       </div>

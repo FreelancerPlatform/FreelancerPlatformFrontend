@@ -3,7 +3,6 @@ import { InfoCircleOutlined } from "@ant-design/icons";
 import Text from "antd/lib/typography/Text";
 import React from "react";
 import { getJobById } from "../utils";
-// import { getJobById } from "../utilsTest";
 
 class JobDetailInfoButton extends React.Component {
   state = {
@@ -70,7 +69,7 @@ class JobDetailInfoButton extends React.Component {
             onCancel={this.handleCancel}
           >
             <Space direction="vertical">
-              {/* <Text italic>{job_type}</Text> */}
+              <Text italic>{job_type}</Text>
               <Text strong={true}>Description</Text>
               <Text type="secondary">{content}</Text>
               <Text strong={true}>Required Skills</Text>

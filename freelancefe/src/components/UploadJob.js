@@ -15,16 +15,8 @@ class UploadJob extends React.Component {
 
   fileInputRef = React.createRef();
 
-  handleSubmit = async (values) => {
-    // const formData = new FormData();
+  handleSubmit = async () => {
     const formInstance = this.fileInputRef.current;
-
-    // formData.append("job_name", values.job_name);
-    // formData.append("location", values.location);
-    // formData.append("salary", values.salary);
-    // formData.append("job_type", values.job_type);
-    // formData.append("skill", values.skill.toUpperCase().split(","));
-    // formData.append("content", values.content);
 
     try {
       await formInstance.validateFields();
@@ -43,9 +35,7 @@ class UploadJob extends React.Component {
     this.setState({
       loading: true,
     });
-    // console.log(credentials);
     try {
-      // await uploadJob(formData);
       await uploadJob(credentials);
       message.success("upload successfully");
     } catch (error) {
@@ -105,7 +95,6 @@ class UploadJob extends React.Component {
             <InputNumber placeholder="eg. 45" />
           </Form.Item>
           <Form.Item name="job_type" label="Type" rules={[{ required: true }]}>
-
             <Select placeholder="Select Job Type">
               <Option value="TECHNOLOGY">TECHNOLOGY</Option>
               <Option value="HEALTH">HEALTH</Option>

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Input, Radio, Button, Select, message, Space } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { register } from "../utils";
-// import { register } from "../utilsTest";
 
 const { Option } = Select;
 

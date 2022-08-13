@@ -4,11 +4,6 @@ import { message, List, Card, Button } from "antd";
 
 import Text from "antd/lib/typography/Text";
 import ApplicantListPage from "./ApplicantListPage";
-// import {
-//   getJobsByEmployer,
-//   getApplicationsByJob,
-//   closeJob,
-// } from "../utilsTest";
 import { getJobsByEmployer, closeJob } from "../utils";
 
 const { Meta } = Card;
@@ -36,6 +31,7 @@ class RemoveJobButton extends React.Component {
 
     try {
       await closeJob(jobID);
+      message.success("Successfully closed job");
       onRemoveSuccess();
     } catch (error) {
       message.error(error.message);
@@ -119,7 +115,6 @@ class MyJobs extends React.Component {
               actions={[
                 <ViewApplicantsButton
                   id={item.jobID}
-                  // name={item.job_name}
                   showApplications={this.props.showApplications}
                 />,
                 item.status !== "CLOSED" && (

@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Form, Input, message, Radio, Space } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { login } from "../utils";
-// import { login } from "../utilsTest";
 
 class Login extends React.Component {
   formRef = React.createRef();
@@ -105,7 +104,7 @@ class Login extends React.Component {
             name="name"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your name",
               },
             ]}

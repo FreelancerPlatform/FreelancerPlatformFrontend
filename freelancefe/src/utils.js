@@ -89,8 +89,6 @@ export const getJobsByEmployer = () => {
 export const uploadJob = (data) => {
   const authToken = localStorage.getItem("authToken");
   const uploadJobUrl = `${domain}/employer/job`;
-  // console.log(JSON.stringify(data));
-  // console.log(data);
 
   return fetch(uploadJobUrl, {
     method: "POST",
@@ -99,7 +97,6 @@ export const uploadJob = (data) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    // body: data,
   }).then((response) => {
     if (response.status !== 200) {
       throw Error("Failed to upload job");
@@ -133,7 +130,6 @@ export const hireApplicant = (application_ID) => {
     headers: {
       Authorization: `Bearer ${authToken}`,
     },
-    //body: data,
   }).then((response) => {
     if (response.status !== 200) {
       throw Error("Failed to update application status");
@@ -150,7 +146,6 @@ export const rateApplicant = (application_ID, rate) => {
     headers: {
       Authorization: `Bearer ${authToken}`,
     },
-    //body: data,
   }).then((response) => {
     if (response.status !== 200) {
       throw Error("Failed to rate applicant");
@@ -167,7 +162,6 @@ export const closeJob = (job_ID) => {
     headers: {
       Authorization: `Bearer ${authToken}`,
     },
-    //body: data,
   }).then((response) => {
     if (response.status !== 200) {
       throw Error("Failed to close job");
@@ -203,7 +197,6 @@ export const createApplication = (job_id) => {
       Authorization: `Bearer ${authToken}`,
       "Content-Type": "application/json",
     },
-    //body: JSON.stringify(data),
   }).then((response) => {
     if (response.status !== 200) {
       throw Error("Failed to submit application");
