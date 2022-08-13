@@ -1,4 +1,3 @@
-
 import logo from "./logo.svg";
 import { Layout } from "antd";
 import React from "react";
@@ -28,7 +27,6 @@ class App extends React.Component {
       asEmployer,
     });
   }
-
 
   handleLoginSuccess = (token, asEmployer) => {
     localStorage.setItem("authToken", token);
@@ -123,7 +121,7 @@ class App extends React.Component {
           {this.renderContent()}
         </Content>
         <Footer style={{ textAlign: "center", padding: "0 0" }}>
-          FlexLancer ©2022
+          FreeLaunch ©2022
         </Footer>
       </Layout>
     );

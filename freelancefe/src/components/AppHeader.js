@@ -43,7 +43,7 @@ class AppHeader extends React.Component {
     return (
       <Header style={{ display: "flex", justifyContent: "space-between" }}>
         <Text style={{ fontSize: 16, fontWeight: 600, color: "white" }}>
-          FlexLancer
+          FreeLaunch
         </Text>
 
         {authed && this.renderMenu()}
