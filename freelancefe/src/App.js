@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+// import { Canvas, useFrame } from "@react-three/fiber";
 import { Layout } from "antd";
 import React from "react";
 import ApplicantHomePage from "./components/ApplicantHomePage";
@@ -8,11 +9,13 @@ import AppHeader from "./components/AppHeader";
 import UploadJobPage from "./components/UploadJob";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import WelcomePage from "./components/WelcomePage";
 
 const { Content, Footer } = Layout;
 
 class App extends React.Component {
   state = {
+    welcome: true,
     authed: false,
     registered: true,
     asEmployer: false,
@@ -27,6 +30,12 @@ class App extends React.Component {
       asEmployer,
     });
   }
+
+  onClickWelcome = () => {
+    this.setState({
+      welcome: false,
+    });
+  };
 
   handleLoginSuccess = (token, asEmployer) => {
     localStorage.setItem("authToken", token);
@@ -63,13 +72,13 @@ class App extends React.Component {
     this.setState({
       pageKey: page.key,
     });
-    if (page.key === "logout")
-      this.setState({
-        authed: false,
-      });
+    if (page.key === "logout") this.handleLogOut();
   };
 
   renderContent = () => {
+    if (this.state.welcome) {
+      return <WelcomePage onClick={this.onClickWelcome} />;
+    }
     if (!this.state.registered) {
       return (
         <Register
@@ -110,6 +119,7 @@ class App extends React.Component {
     return (
       <Layout style={{ height: "100vh" }}>
         <AppHeader
+          welcome={this.state.welcome}
           authed={this.state.authed}
           asEmployer={this.state.asEmployer}
           flipPage={this.flipPage}
@@ -119,6 +129,7 @@ class App extends React.Component {
           style={{ height: "calc(100% - 64px)", margin: 20, overflow: "auto" }}
         >
           {this.renderContent()}
+          {/* <WelcomePage /> */}
         </Content>
         <Footer style={{ textAlign: "center", padding: "0 0" }}>
           FreeLaunch ©2022
